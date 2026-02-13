@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Happy Valentine cutie bujji kanna💖</title>
+<title>My Cuteuluu 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -10,15 +10,22 @@ body {
   font-family: 'Comic Sans MS', cursive;
   text-align: center;
   background: linear-gradient(to bottom right, #ff9ecf, #ffcce6);
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
-.section {
+.page {
+  display: none;
   padding: 60px 20px;
+  height: 100vh;
+}
+
+.active {
+  display: block;
 }
 
 h1 {
   color: white;
+  font-size: 38px;
 }
 
 p {
@@ -33,6 +40,11 @@ button {
   border: none;
   cursor: pointer;
   margin: 10px;
+}
+
+.nextBtn {
+  background-color: white;
+  color: #ff4da6;
 }
 
 #yesBtn {
@@ -50,34 +62,25 @@ img {
   width: 250px;
   border-radius: 20px;
   margin: 10px;
-  box-shadow: 0 0 15px white;
+  box-shadow: 0 0 20px white;
 }
 
-#website {
-  display: none;
+input {
+  padding: 10px;
+  font-size: 16px;
 }
 
 #confetti {
   display: none;
   font-size: 30px;
 }
-
-.heart {
-  position: fixed;
-  top: -10px;
-  animation: fall 5s linear infinite;
-}
-
-@keyframes fall {
-  to { transform: translateY(100vh); }
-}
 </style>
 </head>
 
 <body>
 
-<!-- PASSWORD SCREEN -->
-<div id="passwordScreen" class="section">
+<!-- PASSWORD PAGE -->
+<div class="page active" id="page1">
   <h1>🔐 Enter Our Secret Code 💌</h1>
   <input type="password" id="passwordInput" placeholder="Enter password">
   <br><br>
@@ -85,56 +88,82 @@ img {
   <p id="wrongPass"></p>
 </div>
 
-<div id="website">
-
-<div class="section">
-  <h1>Hi cuteluuuu 💕</h1>
-  <p>You unlocked my heart 😌💖</p>
+<!-- WELCOME PAGE -->
+<div class="page" id="page2">
+  <h1>Cuteuluuu 💕</h1>
+  <p>I Love youu 😌💖</p>
+  <button class="nextBtn" onclick="nextPage(3)">Next ➡️</button>
 </div>
 
-<div class="section">
-  <h1>Our Cute Memories 🥹</h1>
+<!-- MEMORIES PAGE -->
+<div class="page" id="page3">
+  <h1>I dont want to upload actual pictures andukeeee 🥹</h1>
   <img src="yourimage1.jpg">
   <img src="yourimage2.jpg">
+  <br>
+  <button class="nextBtn" onclick="nextPage(4)">Next ➡️</button>
 </div>
 
-<div class="section">
+<!-- REASONS PAGE -->
+<div class="page" id="page4">
   <h1>Reasons I Love You 💌</h1>
-  <p>💖 You are chaaalaa cuteee</p>
+  <p>💖 You are chaaaala cutee</p>
   <p>💖 You are chaaaala handsome</p>
   <p>💖 You are chaaaala pichiii</p>
-  <p>💖 And you are anni mine</p>
+  <p>💖 You are my forever</p>
+  <button class="nextBtn" onclick="nextPage(5)">Take a Quiz ➡️</button>
 </div>
 
-<div class="section">
+<!-- QUIZ PAGE -->
+<div class="page" id="page5">
+  <h1>Mini Quiz 🧠</h1>
+  <p>Who is smart?</p>
+  <button onclick="correctAnswer()">Me 😌</button>
+  <button onclick="wrongAnswer()">You</button>
+  <p id="quizResult"></p>
+  <br>
+  <button class="nextBtn" onclick="nextPage(6)">Final Question ➡️</button>
+</div>
+
+<!-- PROPOSAL PAGE -->
+<div class="page" id="page6">
   <h1>Will You Be My Valentine? 💍💖</h1>
   <button id="yesBtn" onclick="sayYes()">YES 💘</button>
   <button id="noBtn" onmouseover="moveButton()">NO 🔘</button>
-</div>
-
-<div id="confetti">🎉💖🎉 I LOVE YOUUUU BUJJI KANNA🎉💖🎉</div>
-
+  <div id="confetti">🎉💖🎉 I LOVE YOUUUU BUJJI KANNA🎉💖🎉</div>
 </div>
 
 <script>
 function checkPassword() {
   var password = document.getElementById("passwordInput").value;
-  
-  if (password === "iloveyou") {
-    document.getElementById("passwordScreen").style.display = "none";
-    document.getElementById("website").style.display = "block";
+  if (password === "ILOVEYOU") {
+    nextPage(2);
   } else {
     document.getElementById("wrongPass").innerText = "Wrong password 😏 Try again!";
   }
 }
 
+function nextPage(pageNumber) {
+  let pages = document.querySelectorAll(".page");
+  pages.forEach(p => p.classList.remove("active"));
+  document.getElementById("page" + pageNumber).classList.add("active");
+}
+
+function correctAnswer() {
+  document.getElementById("quizResult").innerText = "Correct 😌💖";
+}
+
+function wrongAnswer() {
+  document.getElementById("quizResult").innerText = "Try again 😏";
+}
+
 let noTexts = [
-"🚫 Pettu bekaa??",
-"🚫 Muddi Red",
-"🚫 Koditheeee",
-"🚫 Debbaluu",
-"🚫 Ayipothavuu",
-"🚫 Siggu ledha 😏"
+"🚫 Debbaluuu",
+"🚫 Pettu bekaaaaa",
+"🚫 Muddi Reddd",
+"🚫 Ayipothavuuu",
+"🚫 Musukuni",
+"🚫 Siggu ledha cuteee 😏"
 ];
 
 let clickCount = 0;
@@ -150,21 +179,13 @@ function moveButton() {
     button.innerText = noTexts[clickCount];
     clickCount++;
   } else {
-    button.innerText = "JUST CLICK YES 😭💖";
+    button.innerText = "MUSUKUNI😏";
   }
 }
 
 function sayYes() {
   document.getElementById("confetti").style.display = "block";
-  alert("YAYYYY 😭💖 I LOVE YOU SO MUCHHHH NANA");
-}
-
-for (let i = 0; i < 20; i++) {
-  let heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = "💖";
-  heart.style.left = Math.random() * 100 + "vw";
-  document.body.appendChild(heart);
+  alert("YAYYYY 😭💖 I LOVE YOU SO MUCHHHH CUTEE BUJJI KANNA I LOVE YOU HAPPY VALENTINES DAY");
 }
 </script>
 
