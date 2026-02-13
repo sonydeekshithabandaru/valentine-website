@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>TO MY VALENYTINE 💖</title>
+<title>TO MY VALENTINE 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -24,15 +24,11 @@ body {
   padding: 30px;
   border-radius: 20px;
   backdrop-filter: blur(10px);
+  position: relative;
 }
 
-h1 {
+h1, p {
   color: white;
-}
-
-p {
-  color: white;
-  font-size: 18px;
 }
 
 button {
@@ -75,6 +71,13 @@ img {
   font-size: 24px;
   margin-top: 15px;
 }
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
 </style>
 </head>
 
@@ -82,15 +85,15 @@ img {
 
 <div class="container">
 
-<!-- PASSWORD -->
+<!-- PASSWORD PAGE -->
 <div id="page1">
-  <h1>🔐 Enter Our Secret Code</h1>
+  <h1>🔐 Enter Our Secret Code 💌</h1>
   <input type="password" id="passwordInput" placeholder="Enter password">
   <button class="primary" onclick="checkPassword()">Enter 💖</button>
   <p id="wrongPass"></p>
 </div>
 
-<!-- QUIZ -->
+<!-- QUIZ PAGE -->
 <div id="page2" class="hidden">
   <h1>Love Quiz 💕</h1>
   <p id="question"></p>
@@ -98,7 +101,7 @@ img {
   <p id="scoreText"></p>
 </div>
 
-<!-- PROPOSAL -->
+<!-- PROPOSAL PAGE -->
 <div id="page3" class="hidden">
   <h1>Final Question 💍</h1>
   <p>Will You Be My Valentine? 💖</p>
@@ -107,7 +110,7 @@ img {
   <div id="confetti"></div>
 </div>
 
-<!-- GIFT -->
+<!-- GIFT PAGE -->
 <div id="page4" class="hidden">
   <h1>🎁 Special Gift Unlocked 💖</h1>
   <p>You won my heart forever 😌💕</p>
@@ -128,18 +131,18 @@ const questions = [
     correct: 0
   },
   {
-    question: "Who have more sense of humour?",
+    question: "Who has more sense of humour?",
     answers: ["ME", "You"],
     correct: 1
   },
   {
-    question: "Who is pichiii"
+    question: "Who is pichiii?",
     answers: ["ME", "YOU"],
     correct: 0
   },
   {
     question: "Who is the cutest?",
-    answers: ["OFFCOURSE ME", "YOU"],
+    answers: ["OFFCOURSE ME 😌", "YOU"],
     correct: 0
   },
   {
@@ -150,7 +153,8 @@ const questions = [
 ];
 
 function checkPassword() {
-  if (document.getElementById("passwordInput").value === "iloveyou") {
+  const entered = document.getElementById("passwordInput").value.trim();
+  if (entered === "iloveyou") {
     document.getElementById("page1").classList.add("hidden");
     document.getElementById("page2").classList.remove("hidden");
     loadQuestion();
@@ -164,7 +168,7 @@ function loadQuestion() {
   document.getElementById("question").innerText = q.question;
   let answersDiv = document.getElementById("answers");
   answersDiv.innerHTML = "";
-  
+
   q.answers.forEach((answer, index) => {
     let btn = document.createElement("button");
     btn.className = "secondary";
@@ -178,15 +182,15 @@ function checkAnswer(index) {
   if (index === questions[currentQuestion].correct) {
     score++;
   }
-  
+
   currentQuestion++;
-  
+
   if (currentQuestion < questions.length) {
     loadQuestion();
   } else {
     document.getElementById("scoreText").innerText =
       "You scored " + score + " / 5 💖";
-    
+
     setTimeout(() => {
       document.getElementById("page2").classList.add("hidden");
       document.getElementById("page3").classList.remove("hidden");
@@ -207,8 +211,8 @@ let clickCount = 0;
 
 function moveButton() {
   let button = document.getElementById("noBtn");
-  let x = Math.random() * window.innerWidth * 0.7;
-  let y = Math.random() * window.innerHeight * 0.7;
+  let x = Math.random() * (window.innerWidth - 100);
+  let y = Math.random() * (window.innerHeight - 50);
   button.style.left = x + "px";
   button.style.top = y + "px";
 
@@ -219,11 +223,25 @@ function moveButton() {
 }
 
 function sayYes() {
-  document.getElementById("confetti").innerText = "🎉💖🎉 I LOVE YOUUUU BUJJI KANNA 🎉💖🎉";
+  document.getElementById("confetti").innerText =
+    "🎉💖🎉 I LOVE YOUUUU BUJJI KANNA 🎉💖🎉";
+
+  // Heart & Kiss Explosion
+  for (let i = 0; i < 70; i++) {
+    let heart = document.createElement("div");
+    heart.innerHTML = Math.random() > 0.5 ? "💖" : "💋";
+    heart.style.position = "fixed";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.top = "-20px";
+    heart.style.fontSize = (20 + Math.random() * 30) + "px";
+    heart.style.animation = "fall 3s linear forwards";
+    document.body.appendChild(heart);
+  }
+
   setTimeout(() => {
     document.getElementById("page3").classList.add("hidden");
     document.getElementById("page4").classList.remove("hidden");
-  }, 2000);
+  }, 3000);
 }
 </script>
 
