@@ -1,160 +1,197 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>My Cuteuluu 💖</title>
+<title>TO MY VALENYTINE 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
   margin: 0;
   font-family: 'Comic Sans MS', cursive;
-  text-align: center;
   background: linear-gradient(to bottom right, #ff9ecf, #ffcce6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   overflow: hidden;
 }
 
-.page {
-  display: none;
-  padding: 60px 20px;
-  height: 100vh;
-}
-
-.active {
-  display: block;
+.container {
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  background: rgba(255,255,255,0.15);
+  padding: 30px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
 }
 
 h1 {
   color: white;
-  font-size: 38px;
 }
 
 p {
   color: white;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 button {
-  padding: 15px 30px;
-  font-size: 18px;
-  border-radius: 30px;
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 25px;
   border: none;
   cursor: pointer;
-  margin: 10px;
 }
 
-.nextBtn {
-  background-color: white;
-  color: #ff4da6;
-}
-
-#yesBtn {
-  background-color: #ff4da6;
+.primary {
+  background: #ff4da6;
   color: white;
 }
 
-#noBtn {
-  background-color: white;
+.secondary {
+  background: white;
   color: #ff4da6;
+}
+
+#noBtn {
   position: absolute;
+  width: auto;
+}
+
+.hidden {
+  display: none;
 }
 
 img {
-  width: 250px;
-  border-radius: 20px;
-  margin: 10px;
-  box-shadow: 0 0 20px white;
-}
-
-input {
-  padding: 10px;
-  font-size: 16px;
+  width: 100%;
+  border-radius: 15px;
+  margin-top: 15px;
 }
 
 #confetti {
-  display: none;
-  font-size: 30px;
+  font-size: 24px;
+  margin-top: 15px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- PASSWORD PAGE -->
-<div class="page active" id="page1">
-  <h1>🔐 Enter Our Secret Code 💌</h1>
+<div class="container">
+
+<!-- PASSWORD -->
+<div id="page1">
+  <h1>🔐 Enter Our Secret Code</h1>
   <input type="password" id="passwordInput" placeholder="Enter password">
-  <br><br>
-  <button onclick="checkPassword()">Enter 💖</button>
+  <button class="primary" onclick="checkPassword()">Enter 💖</button>
   <p id="wrongPass"></p>
 </div>
 
-<!-- WELCOME PAGE -->
-<div class="page" id="page2">
-  <h1>Cuteuluuu 💕</h1>
-  <p>I Love youu 😌💖</p>
-  <button class="nextBtn" onclick="nextPage(3)">Next ➡️</button>
+<!-- QUIZ -->
+<div id="page2" class="hidden">
+  <h1>Love Quiz 💕</h1>
+  <p id="question"></p>
+  <div id="answers"></div>
+  <p id="scoreText"></p>
 </div>
 
-<!-- MEMORIES PAGE -->
-<div class="page" id="page3">
-  <h1>I dont want to upload actual pictures andukeeee 🥹</h1>
+<!-- PROPOSAL -->
+<div id="page3" class="hidden">
+  <h1>Final Question 💍</h1>
+  <p>Will You Be My Valentine? 💖</p>
+  <button class="primary" onclick="sayYes()">YES 💘</button>
+  <button class="secondary" id="noBtn" onmouseover="moveButton()">NO 🔘</button>
+  <div id="confetti"></div>
+</div>
+
+<!-- GIFT -->
+<div id="page4" class="hidden">
+  <h1>🎁 Special Gift Unlocked 💖</h1>
+  <p>You won my heart forever 😌💕</p>
   <img src="yourimage1.jpg">
   <img src="yourimage2.jpg">
-  <br>
-  <button class="nextBtn" onclick="nextPage(4)">Next ➡️</button>
 </div>
 
-<!-- REASONS PAGE -->
-<div class="page" id="page4">
-  <h1>Reasons I Love You 💌</h1>
-  <p>💖 You are chaaaala cutee</p>
-  <p>💖 You are chaaaala handsome</p>
-  <p>💖 You are chaaaala pichiii</p>
-  <p>💖 You are my forever</p>
-  <button class="nextBtn" onclick="nextPage(5)">Take a Quiz ➡️</button>
-</div>
-
-<!-- QUIZ PAGE -->
-<div class="page" id="page5">
-  <h1>Mini Quiz 🧠</h1>
-  <p>Who is smart?</p>
-  <button onclick="correctAnswer()">Me 😌</button>
-  <button onclick="wrongAnswer()">You</button>
-  <p id="quizResult"></p>
-  <br>
-  <button class="nextBtn" onclick="nextPage(6)">Final Question ➡️</button>
-</div>
-
-<!-- PROPOSAL PAGE -->
-<div class="page" id="page6">
-  <h1>Will You Be My Valentine? 💍💖</h1>
-  <button id="yesBtn" onclick="sayYes()">YES 💘</button>
-  <button id="noBtn" onmouseover="moveButton()">NO 🔘</button>
-  <div id="confetti">🎉💖🎉 I LOVE YOUUUU BUJJI KANNA🎉💖🎉</div>
 </div>
 
 <script>
+let score = 0;
+let currentQuestion = 0;
+
+const questions = [
+  {
+    question: "Who is smarter?",
+    answers: ["You", "ME"],
+    correct: 0
+  },
+  {
+    question: "Who have more sense of humour?",
+    answers: ["ME", "You"],
+    correct: 1
+  },
+  {
+    question: "Who is pichiii"
+    answers: ["ME", "YOU"],
+    correct: 0
+  },
+  {
+    question: "Who is the cutest?",
+    answers: ["OFFCOURSE ME", "YOU"],
+    correct: 0
+  },
+  {
+    question: "Do you love me?",
+    answers: ["YESSS 💖", "No 😏"],
+    correct: 0
+  }
+];
+
 function checkPassword() {
-  var password = document.getElementById("passwordInput").value;
-  if (password === "ILOVEYOU") {
-    nextPage(2);
+  if (document.getElementById("passwordInput").value === "iloveyou") {
+    document.getElementById("page1").classList.add("hidden");
+    document.getElementById("page2").classList.remove("hidden");
+    loadQuestion();
   } else {
-    document.getElementById("wrongPass").innerText = "Wrong password 😏 Try again!";
+    document.getElementById("wrongPass").innerText = "Wrong password 😏";
   }
 }
 
-function nextPage(pageNumber) {
-  let pages = document.querySelectorAll(".page");
-  pages.forEach(p => p.classList.remove("active"));
-  document.getElementById("page" + pageNumber).classList.add("active");
+function loadQuestion() {
+  let q = questions[currentQuestion];
+  document.getElementById("question").innerText = q.question;
+  let answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+  
+  q.answers.forEach((answer, index) => {
+    let btn = document.createElement("button");
+    btn.className = "secondary";
+    btn.innerText = answer;
+    btn.onclick = () => checkAnswer(index);
+    answersDiv.appendChild(btn);
+  });
 }
 
-function correctAnswer() {
-  document.getElementById("quizResult").innerText = "Correct 😌💖";
-}
-
-function wrongAnswer() {
-  document.getElementById("quizResult").innerText = "Try again 😏";
+function checkAnswer(index) {
+  if (index === questions[currentQuestion].correct) {
+    score++;
+  }
+  
+  currentQuestion++;
+  
+  if (currentQuestion < questions.length) {
+    loadQuestion();
+  } else {
+    document.getElementById("scoreText").innerText =
+      "You scored " + score + " / 5 💖";
+    
+    setTimeout(() => {
+      document.getElementById("page2").classList.add("hidden");
+      document.getElementById("page3").classList.remove("hidden");
+    }, 2000);
+  }
 }
 
 let noTexts = [
@@ -170,22 +207,23 @@ let clickCount = 0;
 
 function moveButton() {
   let button = document.getElementById("noBtn");
-  let x = Math.random() * window.innerWidth * 0.8;
-  let y = Math.random() * window.innerHeight * 0.8;
+  let x = Math.random() * window.innerWidth * 0.7;
+  let y = Math.random() * window.innerHeight * 0.7;
   button.style.left = x + "px";
   button.style.top = y + "px";
 
   if (clickCount < noTexts.length) {
     button.innerText = noTexts[clickCount];
     clickCount++;
-  } else {
-    button.innerText = "MUSUKUNI😏";
   }
 }
 
 function sayYes() {
-  document.getElementById("confetti").style.display = "block";
-  alert("YAYYYY 😭💖 I LOVE YOU SO MUCHHHH CUTEE BUJJI KANNA I LOVE YOU HAPPY VALENTINES DAY");
+  document.getElementById("confetti").innerText = "🎉💖🎉 I LOVE YOUUUU BUJJI KANNA 🎉💖🎉";
+  setTimeout(() => {
+    document.getElementById("page3").classList.add("hidden");
+    document.getElementById("page4").classList.remove("hidden");
+  }, 2000);
 }
 </script>
 
