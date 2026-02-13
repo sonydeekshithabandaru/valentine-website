@@ -8,7 +8,7 @@
 body {
   margin: 0;
   font-family: 'Comic Sans MS', cursive;
-  background: linear-gradient(to bottom right, #ff69b4, #ffb6d9);
+  background: linear-gradient(to bottom right, #ff4da6, #ff99cc);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,34 +18,26 @@ body {
 
 .container {
   width: 95%;
-  max-width: 550px;
+  max-width: 600px;
   text-align: center;
   background: rgba(255,255,255,0.2);
-  padding: 30px;
+  padding: 35px;
   border-radius: 25px;
   backdrop-filter: blur(12px);
   position: relative;
 }
 
-h1, p {
-  color: white;
-}
-
-input {
-  padding: 10px;
-  border-radius: 20px;
-  border: none;
-  text-align: center;
-}
+h1 { color: white; font-size: 28px; }
+p { color: white; font-size: 18px; }
 
 button {
-  padding: 12px;
+  padding: 14px;
   margin: 10px;
   border-radius: 25px;
   border: none;
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
-  min-width: 120px;
+  min-width: 130px;
   transition: 0.3s ease;
 }
 
@@ -59,28 +51,21 @@ button {
   color: #ff1493;
 }
 
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
 
 #buttonsArea {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  margin-top: 20px;
-  position: relative;
-  height: 120px;
-}
-
-#noBtn {
-  position: relative;
+  gap: 25px;
+  margin-top: 25px;
 }
 
 #noMessage {
-  margin-top: 15px;
-  font-size: 18px;
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: bold;
   color: white;
-  min-height: 30px;
+  min-height: 40px;
 }
 
 #images {
@@ -97,7 +82,7 @@ button {
 
 .floating {
   position: fixed;
-  font-size: 25px;
+  font-size: 28px;
   animation: floatDown 4s linear forwards;
 }
 
@@ -126,22 +111,40 @@ button {
 <!-- QUIZ -->
 <div id="page2" class="hidden">
   <h1>💝 Unlock Special Gift 💝</h1>
-  <p>Take this love quiz to unlock your surprise 😌💕</p>
   <p id="question"></p>
   <div id="answers"></div>
   <p id="feedback"></p>
 </div>
 
+<!-- LETTER -->
+<div id="pageLetter" class="hidden">
+  <h1>💌 A Letter For You</h1>
+  <p>
+  My Cuteuluuuu 💖<br><br>
+
+  I am so grateful to have you in my life. Truly, the only good thing happening in my life is you.  
+  You make me smile without even trying and brighten my world.  
+
+  I promise to stand by you forever — in your lows and highs.  
+  I feel so lucky that life brought you to me.  
+
+  I will always be thankful to Bangalore and Citiustech for giving me you.  
+
+  I love you more than words can explain.  
+  I LOVE YOU SO MUCH CUTEULUU
+  MISSING YOU BADLY COME SOON TO BLR.💕
+  </p>
+
+  <button class="primary" onclick="goToProposal()">Finally 💍</button>
+</div>
+
 <!-- PROPOSAL -->
 <div id="page3" class="hidden">
-  <h1>Final Question 💍</h1>
-  <p>Will You Be My Valentine? 💖</p>
+  <h1>Will You Be My Valentine? 💖</h1>
 
   <div id="buttonsArea">
-    <button class="primary" onclick="sayYes()">YES 💘</button>
-    <button id="noBtn" class="secondary" 
-      onmouseover="moveNoButton()" 
-      onclick="handleNo()">NO 🔘</button>
+    <button id="yesBtn" class="primary" onclick="sayYes()">YES 💘</button>
+    <button id="noBtn" class="secondary" onclick="handleNo()">NO 🔘</button>
   </div>
 
   <p id="noMessage"></p>
@@ -150,12 +153,7 @@ button {
 <!-- GIFT -->
 <div id="page4" class="hidden">
   <h1>🎁 Special Gift Unlocked 💖</h1>
-  <p>
-    You are mine forever, happy valentines cuteuluuuu.  
-    Anni special gifts are waiting for you in BLR.  
-    I LOVE YOU SO MUCH CUTEULUUUU 😘💕
-  </p>
-
+  <p>I LOVE YOU SO MUCH 😘💕</p>
   <div id="images">
     <img src="yourimage1.jpg">
     <img src="yourimage2.jpg">
@@ -167,6 +165,7 @@ button {
 <script>
 
 let currentQuestion = 0;
+let yesScale = 1;
 
 const questions = [
   { question: "Who is smarter?", answers: ["You 😌", "ME"], correct: 0 },
@@ -177,29 +176,27 @@ const questions = [
 ];
 
 function checkPassword() {
-  const entered = document.getElementById("passwordInput").value.trim();
-  if (entered === "iloveyou") {
-    document.getElementById("page1").classList.add("hidden");
-    document.getElementById("page2").classList.remove("hidden");
+  if (document.getElementById("passwordInput").value.trim() === "iloveyou") {
+    page1.classList.add("hidden");
+    page2.classList.remove("hidden");
     loadQuestion();
   } else {
-    document.getElementById("wrongPass").innerText = "Wrong password 😏";
+    wrongPass.innerText = "Wrong password 😏";
   }
 }
 
 function loadQuestion() {
   let q = questions[currentQuestion];
-  document.getElementById("question").innerText = q.question;
-  let answersDiv = document.getElementById("answers");
-  answersDiv.innerHTML = "";
-  document.getElementById("feedback").innerText = "";
+  question.innerText = q.question;
+  answers.innerHTML = "";
+  feedback.innerText = "";
 
   q.answers.forEach((answer, index) => {
     let btn = document.createElement("button");
     btn.className = "secondary";
     btn.innerText = answer;
     btn.onclick = () => checkAnswer(index);
-    answersDiv.appendChild(btn);
+    answers.appendChild(btn);
   });
 }
 
@@ -209,17 +206,20 @@ function checkAnswer(index) {
     if (currentQuestion < questions.length) {
       loadQuestion();
     } else {
-      document.getElementById("feedback").innerText =
-        "You scored 5 / 5 💖 ANNI WINNESINDHI MY CUTE 😌";
-
+      feedback.innerText = "You scored 5/5 💖 Obviously 😌";
       setTimeout(() => {
-        document.getElementById("page2").classList.add("hidden");
-        document.getElementById("page3").classList.remove("hidden");
+        page2.classList.add("hidden");
+        pageLetter.classList.remove("hidden");
       }, 2000);
     }
   } else {
-    document.getElementById("feedback").innerText = "Try again 😏";
+    feedback.innerText = "Try again 😏";
   }
+}
+
+function goToProposal() {
+  pageLetter.classList.add("hidden");
+  page3.classList.remove("hidden");
 }
 
 let noTexts = [
@@ -234,29 +234,20 @@ let noTexts = [
 let noIndex = 0;
 
 function handleNo() {
+  const message = document.getElementById("noMessage");
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+
   if (noIndex < noTexts.length) {
-    document.getElementById("noMessage").innerText = noTexts[noIndex];
+    message.innerText = noTexts[noIndex];
     noIndex++;
+
+    yesScale += 0.3;
+    yesBtn.style.transform = "scale(" + yesScale + ")";
   } else {
-    document.getElementById("noMessage").innerText = "JUST CLICK YES 😭💖";
+    noBtn.style.display = "none";
+    message.innerText = "NO option removed 😌 Just click YES 💖";
   }
-}
-
-function moveNoButton() {
-  const btn = document.getElementById("noBtn");
-  const area = document.getElementById("buttonsArea");
-
-  const areaRect = area.getBoundingClientRect();
-
-  const maxX = areaRect.width - btn.offsetWidth;
-  const maxY = areaRect.height - btn.offsetHeight;
-
-  const randomX = Math.random() * maxX;
-  const randomY = Math.random() * maxY;
-
-  btn.style.position = "absolute";
-  btn.style.left = randomX + "px";
-  btn.style.top = randomY + "px";
 }
 
 function sayYes() {
@@ -270,8 +261,8 @@ function sayYes() {
   }
 
   setTimeout(() => {
-    document.getElementById("page3").classList.add("hidden");
-    document.getElementById("page4").classList.remove("hidden");
+    page3.classList.add("hidden");
+    page4.classList.remove("hidden");
   }, 2500);
 }
 
